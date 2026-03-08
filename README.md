@@ -2,7 +2,7 @@
 Network Traffic Analysis and Password Detection Using Python (Scapy), Wireshark, Nmap & Kali Linux
 
 
-Project Overview :
+### Project Overview :
 
 This project demonstrates network traffic analysis and password detection using cybersecurity tools. The system captures and analyzes packets flowing through a network to understand how data is transmitted between devices.
 
@@ -10,9 +10,9 @@ The project uses Python scripting with Scapy along with professional network ana
 
 This project is designed for educational and cybersecurity awareness purposes to demonstrate the importance of secure communication protocols.
 
-Project Objectives :
+### Project Objectives :
 
-To analyze network traffic and understand how data packets travel across a network.
+* **To analyze network traffic and understand how data packets travel across a network.**
 
 To capture and inspect packets using Wireshark for detailed traffic monitoring.
 
