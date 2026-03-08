@@ -32,8 +32,7 @@ To improve knowledge of network protocols such as TCP, IP, DNS, and HTTP.
 
 
 Tools and Technologies Used :
-
-1. Python (Scapy)
+1. python(scapy)
 
 Python is used to write scripts for packet capturing and analysis.
 The Scapy library allows users to sniff network packets, inspect data, and analyze network protocols.
