@@ -10,6 +10,7 @@ def analyze_packet(packet):
 
         src_ip = packet[IP].src
         dst_ip = packet[IP].dst
+        
 
         print("\n==============================")
         print("Source IP:", src_ip)
