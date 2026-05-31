@@ -1,7 +1,7 @@
 from scapy.all import sniff
 from scapy.layers.inet import IP, TCP, UDP
 from scapy.packet import Raw
-from scapy.layers.http import HTTPRequest
+from scapy.layers.http import HTTPRequest  
 
 
 def analyze_packet(packet):
